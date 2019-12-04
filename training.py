@@ -28,6 +28,7 @@ def create_data(starting_dir="data"):
     print(lengths)
 
     for action in ACTIONS:
+        training_data[action] = [[training_data[action][x], training_data[action][x+1]] for x in range(len(training_data[action])-1)]
         np.random.shuffle(training_data[action])  # note that regular shuffle is GOOF af
         training_data[action] = training_data[action][:min(lengths)]
 
@@ -104,7 +105,7 @@ model.compile(loss='categorical_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
 
-epochs = 10
+epochs = 5
 batch_size = 32
 for epoch in range(epochs):
     model.fit(train_X, train_y, batch_size=batch_size, epochs=1, validation_data=(test_X, test_y))
